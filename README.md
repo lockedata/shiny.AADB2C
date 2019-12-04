@@ -29,7 +29,8 @@ remotes::install_github("lockedata/shiny.AADB2C")
 ### Locally
 
 {shiny} runs on 127.0.0.1:port locally but AAD B2C will only accept
-<http://localhost:port> locally. To manage this, we recommend you run
+<http://localhost:port> as a Redirect URL for an AAD B2C client
+application. To manage this, we recommend you run
 [nginx](http://nginx.org/) on your machine to route traffic from
 localhost to 127.0.0.1 if this isn’t happening naturally.
 
