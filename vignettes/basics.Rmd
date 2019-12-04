@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-{shiny.AADB2C} is designed to help you get started with integration [Azure Active Directory B2C]() authentication into your shiny application.
+{shiny.AADB2C} is designed to help you get started with integration [Azure Active Directory B2C](https://azure.microsoft.com/en-us/services/active-directory-b2c/) authentication into your shiny application.
 
 ```{r setup}
 library(shiny.AADB2C)

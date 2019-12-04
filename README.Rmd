@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-{shiny.AADB2C} is designed to help you get started with integration [Azure Active Directory B2C]() authentication into your shiny application.
+{shiny.AADB2C} is designed to help you get started with integration [Azure Active Directory B2C](https://azure.microsoft.com/en-us/services/active-directory-b2c/) authentication into your shiny application.
 
 ```{r setup}
 library(shiny.AADB2C)
@@ -32,6 +32,45 @@ You can install the package with:
 ```{r install, eval=FALSE}
 remotes::install_github("lockedata/shiny.AADB2C")
 ```
+
+
+## Working with AAD B2C and shiny
+### Locally
+{shiny} runs on 127.0.0.1:port locally but AAD B2C will only accept http://localhost:port locally. To manage this, we recommend you run [nginx](http://nginx.org/) on your machine to route traffic from localhost to 127.0.0.1 if this isn't happening naturally.
+
+To make nginx work with shiny locally, I had to change the `nginx.conf` file and included values like:
+
+```
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    # web socket-y stuff to make shiny work with nginx
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '' close;
+    }
+
+    server {
+        listen       80;
+        server_name  localhost;
+        location / {
+            proxy_set_header    Host $host;
+            proxy_http_version  1.1;
+            # When doing local dev it's helpful to fix your shiny port
+            proxy_pass http://127.0.0.1:4537;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            # When doing local dev it's helpful to fix your shiny port
+            proxy_redirect http://127.0.0.1:4537/ http://$host/;
+        }
+```
+
+### In production
+You will need to use SSL to be able to have shiny deployed in production with authentication as http://localhost is the only non-https address allowed. Current, common approaches to putting shiny behind SSL include:
+
+- [Shiny Server Pro](https://rstudio.com/products/shiny-server-pro/) / [RStudio Connect](https://rstudio.com/products/connect/)
+- [ShinyProxy](https://www.shinyproxy.io/)
+- Container behind a routing solution / proxy e.g. [Azure Container Instances](https://azure.microsoft.com/en-us/services/container-instances/) and [Azure Application Gateway](https://docs.microsoft.com/en-us/azure/application-gateway/overview)
 
 ## `aadb2c_js()`
 The first required component is the JavaScript code that uses the [msal.js](https://github.com/AzureAD/microsoft-authentication-library-for-js) library to authenticate a user via a popup. 
@@ -86,6 +125,5 @@ aadb2c_server()
 ```
 
 This is pretty simple - it merely translates the input created in the msal.js when someone successfully authenticates into a text output. This code snippet can be added to the `server()` function.
-
 
 
