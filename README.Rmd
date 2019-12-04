@@ -30,7 +30,7 @@ library(shiny.AADB2C)
 You can install the package with:
 
 ```{r install, eval=FALSE}
-remotes::install_github("shiny.AADB2C")
+remotes::install_github("lockedata/shiny.AADB2C")
 ```
 
 ## `aadb2c_js()`
@@ -52,6 +52,7 @@ aadb2c_js(
 ### Configure authentication
 To configure the JS script, you need the following pieces of information:
 
+
 - The AAD B2C tenant name, e.g the demotenant in demotenant.onmicrosoft.com
 - The application ID of the AAD B2C app
 - The User Flow / Policy to use to Sign In
@@ -69,6 +70,8 @@ aadb2c_ui()
 ```
 
 This includes how to:
+
+
 - call to the latest main msal.js library from Microsoft
 - include our bespoke integration code generated via `aadb2c_js()`
   + you will need to make the directory it's stored in available to your shiny dashboard with `shiny::addResourcePath()`
