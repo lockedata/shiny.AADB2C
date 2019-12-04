@@ -1,0 +1,21 @@
+Package: shiny.AADB2C
+Title: Provides Shiny helper functions for Azure Active Directory B2C authentication
+Version: 0.0.1
+Authors@R: 
+    person(given = "Steph",
+           family = "Locke",
+           role = c("aut", "cre"),
+           email = "steph@itsalocke.com",
+           comment = c(ORCID = "0000-0002-2387-3723"))
+Description: Shiny helper functions for Azure Active Directory B2C authentication.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Imports: 
+    clipr
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.0.2
